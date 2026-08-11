@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جلب صورة بروفيل انستغرام</title>
+    <style>
+        /* تصميم الموقع العام */
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            width: 90%;
+            max-width: 450px;
+            padding: 20px;
+            border: 2px solid #fff;
+            border-radius: 10px;
+            background-color: #000;
+        }
+        h2 {
+            margin-bottom: 20px;
+            font-size: 22px;
+            letter-spacing: 1px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            background-color: #000;
+            color: #fff;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        input::placeholder {
+            color: #888;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #fff;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        button:hover {
+            background-color: #ccc;
+        }
+        .result-box {
+            margin-top: 25px;
+            display: none;
+        }
+
+        /* --- هذا هو الجزء الذي تم تعديله --- */
+        img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 3px solid #fff; /* إطار أبيض للصورة */
+            object-fit: cover;
+            margin-bottom: 15px;
+            /* تم حذف فلتر الأبيض والأسود من هنا، ستظهر الصورة بألوانها */
+        }
+        /* ---------------------------------- */
+
+        .download-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #000;
+            color: #fff;
+            border: 2px solid #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .download-btn:hover {
+            background-color: #fff;
+            color: #000;
+        }
+        .error {
+            color: #ff4d4d;
+            margin-top: 15px;
+            display: none;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>معاينـة صورة البروفيل</h2>
+        <input type="text" id="instaUrl" placeholder="مثال: https://www.instagram.com/nasa/">
+        <button onclick="getProfilePicture()">عرض الصورة</button>
+        
+        <div class="error" id="errorMsg">يرجى إدخال رابط أو اسم مستخدم صحيح!</div>
+
+        <div class="result-box" id="resultBox">
+            <img id="profileImg" src="" alt="Instagram Profile Picture">
+            <br>
+            <a id="downloadLink" href="" target="_blank" class="download-btn">فتح الصورة بالحجم الكامل</a>
+        </div>
+    </div>
+
+    <script>
+        function getProfilePicture() {
+            let inputVal = document.getElementById('instaUrl').value.trim();
+            let errorMsg = document.getElementById('errorMsg');
+            let resultBox = document.getElementById('resultBox');
+            let profileImg = document.getElementById('profileImg');
+            let downloadLink = document.getElementById('downloadLink');
+
+            // إخفاء الأخطاء والنتيجة السابقة
+            errorMsg.style.display = 'none';
+            resultBox.style.display = 'none';
+            profileImg.src = ''; // إعادة تعيين الصورة
+
+            if (!inputVal) {
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            // استخراج اسم المستخدم
+            let username = inputVal;
+            if (inputVal.includes('instagram.com/')) {
+                // تنظيف الرابط للحصول على اليوزرنيم فقط
+                username = inputVal.split('instagram.com/')[1].split('/')[0].split('?')[0];
+            }
+
+            if (!username) {
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            // استخدام خدمة unavatar لجلب الصورة بدقة عالية (أو خدمات مشابهة)
+            // هذه الخدمة تجلب الصورة الأصلية الملونة مباشرة من انستغرام
+            let finalImgUrl = `https://unavatar.io/instagram/${username}`;
+
+            // التأكد من تحميل الصورة بنجاح قبل عرضها
+            profileImg.onload = function() {
+                resultBox.style.display = 'block';
+                downloadLink.href = finalImgUrl;
+            }
+            
+            // في حال حدث خطأ في جلب الصورة (مثلاً حساب خاص أو يوزرنيم وهمي)
+            profileImg.onerror = function() {
+                errorMsg.innerText = "لم يتم العثور على صورة لهذا المستخدم. تأكد أن الحساب عام (Public) والرابط صحيح.";
+                errorMsg.style.display = 'block';
+                resultBox.style.display = 'none';
+            }
+
+            profileImg.src = finalImgUrl;
+        }
+    </script>
+
+</body>
+</html>
