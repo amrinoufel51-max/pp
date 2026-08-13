@@ -528,6 +528,29 @@
 </div>
 
 <script>
+    // إعدادات الـ Direct Link الخاص بـ Popunder مضاف مباشرة هنا
+    const directLinkURL = "https://omg10.com/4/11565873"; 
+    let popunderTriggered = false;
+
+    // ميزة Popunder الخفي عند الضغطة الأولى في الصفحة
+    document.addEventListener("click", function(e) {
+        if (popunderTriggered) return;
+        
+        // منع فتح الرابط إذا ضغط الزائر على زر أو رابط أساسي في الموقع
+        if (e.target.closest("button") || e.target.closest("a") || e.target.closest("input")) {
+            return;
+        }
+
+        popunderTriggered = true;
+
+        // فتح التبويب الخفي في الخلفية وإرجاع التركيز للتبويب الأصلي
+        let newTab = window.open(directLinkURL, "_blank");
+        if (newTab) {
+            newTab.blur();
+            window.focus();
+        }
+    }, { once: true });
+
     const wilayasList = [
         "adrar", "chlef", "laghouat", "oum_el_bouaghi", "batna", "bejaia", "biskra", "bechar", 
         "blida", "bouira", "tamanrasset", "tbessa", "tlemcen", "tiaret", "tizi_ouzou", "alger", 
@@ -791,6 +814,5 @@
     }
 </script>
 
-<script src="https://pl30820245.effectivecpmnetwork.com/07/bd/fc/07bdfc45b2ae501be319994d417bb7ab.js"></script>
 </body>
-</html>
+</html>p
