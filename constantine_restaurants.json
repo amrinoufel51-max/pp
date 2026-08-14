@@ -1,1 +1,12 @@
-
+[
+    {
+        "name": "Sushiro",
+        "profileImg": "images/constantine/Sushiro pp.JPG",
+        "phone": "067399392",
+        "menuImages": [
+            "images/constantine/Sushiro m3.jpg",
+            "images/constantine/Sushiro m2.jpg",
+            "images/constantine/Sushiro m2.jpg"
+        ]
+    }
+]
