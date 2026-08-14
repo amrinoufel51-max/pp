@@ -1,25 +1,58 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gusto - Annuaire des Restaurants</title>
+    <meta name="monetag" content="ec74bd3f6117e28e467254f8a8744ae8">
+    <script>(function(s){s.dataset.zone='11533776',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+    <title>La Source - Annuaire Multi-Secteurs</title>
 
     <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #000000, #0a0a0a, #141414, #050505, #000000);
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --card-bg: rgba(15, 15, 15, 0.85);
+            --border-color: rgba(255, 255, 255, 0.15);
+            --border-hover: rgba(255, 255, 255, 0.6);
+            --primary-glow: rgba(255, 255, 255, 0.05);
+            --accent-color: #ffffff;
+            --accent-gradient: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
+            --accent-hover-bg: rgba(255, 255, 255, 0.15);
+            --modal-bg: #0a0a0a;
+            --particle-color: #ffffff;
+        }
+
+        [data-theme="light"] {
+            --bg-gradient: linear-gradient(135deg, #f8fafc, #f1f5f9, #e2e8f0, #f8fafc, #ffffff);
+            --text-color: #0f172a;
+            --text-muted: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --border-color: rgba(0, 0, 0, 0.15);
+            --border-hover: rgba(0, 0, 0, 0.5);
+            --primary-glow: rgba(0, 0, 0, 0.03);
+            --accent-color: #000000;
+            --accent-gradient: linear-gradient(135deg, #000000 0%, #3f3f46 100%);
+            --accent-hover-bg: rgba(0, 0, 0, 0.08);
+            --modal-bg: #ffffff;
+            --particle-color: #000000;
+        }
+
         * { box-sizing: border-box; }
         
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            background: linear-gradient(135deg, #020617, #0f172a, #1e1b4b, #090d16, #020617);
+            background: var(--bg-gradient);
             background-size: 400% 400%;
             animation: waveBackground 12s ease infinite;
             margin: 0; 
             padding: 30px 15px; 
             direction: ltr; 
-            color: #f8fafc;
+            color: var(--text-color);
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
+            transition: background 0.4s ease, color 0.4s ease;
         }
 
         body::before {
@@ -27,7 +60,7 @@
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
-            background: linear-gradient(135deg, #020617, #0f172a, #1e1b4b, #090d16, #020617);
+            background: var(--bg-gradient);
             background-size: 400% 400%;
             animation: waveBackground 12s ease infinite;
             z-index: -3;
@@ -37,6 +70,76 @@
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
+        }
+
+        #splashScreen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: var(--modal-bg);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s ease;
+        }
+
+        #splashScreen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .splash-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            text-align: center;
+            transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.9s ease;
+        }
+
+        #splashScreen.expand .splash-content {
+            transform: scale(8);
+            opacity: 0;
+        }
+
+        .splash-logo {
+            font-size: 46px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulseSplash 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseSplash {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; text-shadow: 0 0 30px var(--border-hover); }
+        }
+
+        .splash-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spinSplash 0.9s linear infinite;
+        }
+
+        @keyframes spinSplash {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .splash-tagline {
+            font-size: 14px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
         }
 
         .backdrop-fx {
@@ -52,49 +155,56 @@
             position: absolute;
             width: 100%; height: 100%;
             background-image: 
-                radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(37, 99, 235, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.03) 0%, transparent 50%);
+                radial-gradient(circle at 20% 30%, var(--primary-glow) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, var(--primary-glow) 0%, transparent 40%);
             filter: blur(40px);
         }
 
         #particles-js { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-        .particle { position: absolute; background: #38bdf8; border-radius: 50%; opacity: 0.3; animation: floatParticle linear infinite; }
-        @keyframes floatParticle { 0% { transform: translateY(100vh) scale(0); } 50% { opacity: 0.6; } 100% { transform: translateY(-50px) scale(1); opacity: 0; } }
+        .particle { position: absolute; background: var(--particle-color); border-radius: 50%; opacity: 0.2; animation: floatParticle linear infinite; }
+        @keyframes floatParticle { 0% { transform: translateY(100vh) scale(0); } 50% { opacity: 0.4; } 100% { transform: translateY(-50px) scale(1); opacity: 0; } }
 
         .bubble {
             position: absolute;
             bottom: -100px;
-            background: radial-gradient(circle at 30% 30%, rgba(56, 189, 248, 0.25), rgba(14, 165, 233, 0.05));
-            border: 1px solid rgba(56, 189, 248, 0.15);
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.02));
+            border: 1px solid var(--border-color);
             border-radius: 50%;
-            box-shadow: inset 0 0 10px rgba(56, 189, 248, 0.2), 0 0 15px rgba(14, 165, 233, 0.1);
             animation: riseBubble linear infinite;
+        }
+
+        [data-theme="light"] .bubble {
+            background: radial-gradient(circle at 30% 30%, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.01));
         }
 
         @keyframes riseBubble {
             0% { transform: translateY(0) scale(1) translateX(0); opacity: 0; }
-            20% { opacity: 0.5; }
-            80% { opacity: 0.5; }
+            20% { opacity: 0.3; }
+            80% { opacity: 0.3; }
             100% { transform: translateY(-110vh) scale(1.2) translateX(30px); opacity: 0; }
         }
 
-        #loader { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, #38bdf8, #2563eb); width: 0%; transition: width 0.3s ease-in-out; z-index: 9999; }
+        #loader { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent-color); width: 0%; transition: width 0.3s ease-in-out; z-index: 9999; }
 
         .top-bar {
             max-width: 650px;
             margin: 0 auto 20px auto;
             display: flex;
-            justify-content: flex-start;
+            justify-content: space-between;
             align-items: center;
         }
 
-        .menu-toggle-btn {
-            background: rgba(15, 23, 42, 0.85);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            color: #38bdf8;
-            font-size: 22px;
-            width: 45px;
+        .top-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .menu-toggle-btn, .back-home-btn, .theme-toggle-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--accent-color);
+            font-size: 18px;
+            padding: 0 15px;
             height: 45px;
             border-radius: 12px;
             cursor: pointer;
@@ -103,20 +213,21 @@
             justify-content: center;
             backdrop-filter: blur(12px);
             transition: all 0.2s;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            gap: 8px;
+            font-weight: 600;
         }
 
-        .menu-toggle-btn:hover {
-            border-color: #38bdf8;
-            background: rgba(56, 189, 248, 0.1);
-            color: #ffffff;
+        .menu-toggle-btn:hover, .back-home-btn:hover, .theme-toggle-btn:hover {
+            border-color: var(--border-hover);
+            background: var(--accent-hover-bg);
         }
 
         .sidebar-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(2, 6, 23, 0.8);
+            background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(5px);
             z-index: 2000;
             transition: opacity 0.3s ease;
@@ -126,9 +237,9 @@
             position: fixed;
             top: 0; left: -300px;
             width: 280px; height: 100%;
-            background: #0b0f19;
-            border-right: 1px solid rgba(56, 189, 248, 0.3);
-            box-shadow: 5px 0 30px rgba(0, 0, 0, 0.9);
+            background: var(--modal-bg);
+            border-right: 1px solid var(--border-color);
+            box-shadow: 5px 0 30px rgba(0, 0, 0, 0.5);
             z-index: 2001;
             display: flex;
             flex-direction: column;
@@ -136,33 +247,31 @@
             transition: left 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .sidebar.active {
-            left: 0;
-        }
+        .sidebar.active { left: 0; }
 
         .sidebar-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
-            border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+            border-bottom: 1px solid var(--border-color);
             padding-bottom: 15px;
         }
 
         .sidebar-title {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 900;
-            background: linear-gradient(to right, #38bdf8, #93c5fd);
+            background: var(--accent-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin: 0;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
 
         .sidebar-close-btn {
-            background: rgba(56, 189, 248, 0.1);
+            background: var(--accent-hover-bg);
             border: none;
-            color: #38bdf8;
+            color: var(--accent-color);
             font-size: 18px;
             width: 32px; height: 32px;
             border-radius: 50%;
@@ -170,7 +279,7 @@
             display: flex; align-items: center; justify-content: center;
             transition: background 0.2s;
         }
-        .sidebar-close-btn:hover { background: rgba(56, 189, 248, 0.25); color: #fff; }
+        .sidebar-close-btn:hover { opacity: 0.8; }
 
         .sidebar-links {
             display: flex;
@@ -180,9 +289,9 @@
         }
 
         .sidebar-link-item {
-            background: rgba(56, 189, 248, 0.05);
-            border: 1px solid rgba(56, 189, 248, 0.15);
-            color: #f8fafc;
+            background: var(--accent-hover-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
             padding: 12px 16px;
             border-radius: 12px;
             text-decoration: none;
@@ -196,17 +305,16 @@
         }
 
         .sidebar-link-item:hover {
-            background: rgba(56, 189, 248, 0.15);
-            border-color: #38bdf8;
+            border-color: var(--border-hover);
             transform: translateX(5px);
-            color: #38bdf8;
+            color: var(--accent-color);
         }
 
         .sidebar-footer {
-            border-top: 1px solid rgba(56, 189, 248, 0.2);
+            border-top: 1px solid var(--border-color);
             padding-top: 15px;
             text-align: center;
-            color: #94a3b8;
+            color: var(--text-muted);
             font-size: 12px;
         }
 
@@ -224,37 +332,43 @@
         .title-wrapper { position: relative; margin-bottom: 25px; text-align: center; }
 
         .site-title {
-            font-size: 72px;
+            font-size: 52px;
             font-weight: 900;
-            letter-spacing: 4px;
+            letter-spacing: 2px;
             text-transform: uppercase;
             display: flex;
             justify-content: center;
-            gap: 8px;
+            gap: 12px;
             cursor: pointer;
             transition: transform 0.2s;
         }
         
-        .site-title:hover {
-            transform: scale(1.02);
+        .site-title:hover { transform: scale(1.02); }
+
+        .site-title .word-group {
+            display: flex;
+            gap: 4px;
         }
 
-        .site-title span {
+        .site-title span span {
             display: inline-block;
             opacity: 0;
             transform: scale(1.8) translateY(60px);
             animation: popAndSettleTwice 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            background: linear-gradient(to right, #38bdf8, #1d4ed8);
+            background: var(--accent-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 4px 20px rgba(56, 189, 248, 0.4);
+            text-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
         }
 
-        .site-title span:nth-child(1) { animation-delay: 0.1s; }
-        .site-title span:nth-child(2) { animation-delay: 0.2s; }
-        .site-title span:nth-child(3) { animation-delay: 0.3s; }
-        .site-title span:nth-child(4) { animation-delay: 0.4s; }
-        .site-title span:nth-child(5) { animation-delay: 0.5s; }
+        .site-title .word-group:nth-child(1) span:nth-child(1) { animation-delay: 0.1s; }
+        .site-title .word-group:nth-child(1) span:nth-child(2) { animation-delay: 0.2s; }
+        .site-title .word-group:nth-child(2) span:nth-child(1) { animation-delay: 0.3s; }
+        .site-title .word-group:nth-child(2) span:nth-child(2) { animation-delay: 0.4s; }
+        .site-title .word-group:nth-child(2) span:nth-child(3) { animation-delay: 0.5s; }
+        .site-title .word-group:nth-child(2) span:nth-child(4) { animation-delay: 0.6s; }
+        .site-title .word-group:nth-child(2) span:nth-child(5) { animation-delay: 0.7s; }
+        .site-title .word-group:nth-child(2) span:nth-child(6) { animation-delay: 0.8s; }
 
         @keyframes popAndSettleTwice {
             0% { opacity: 0; transform: scale(1.8) translateY(80px); }
@@ -264,24 +378,144 @@
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        .search-box-wrapper {
+        #sectorsView {
             width: 100%;
-            max-width: 650px;
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(12px);
-            padding: 16px 20px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            animation: fadeInView 0.5s ease;
+        }
+
+        .section-heading-title {
+            font-size: 18px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .sectors-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+
+        .sector-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            padding: 22px 24px;
+            border-radius: 20px;
+            color: var(--text-color);
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            border: 1px solid rgba(56, 189, 248, 0.3);
+            gap: 20px;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sector-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
             opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInSearch 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        [data-theme="light"] .sector-card::before {
+            background: radial-gradient(circle at center, rgba(0, 0, 0, 0.06) 0%, transparent 70%);
+        }
+
+        .sector-card:hover {
+            background: var(--accent-hover-bg);
+            border-color: var(--border-hover);
+            color: var(--accent-color);
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 15px 35px var(--primary-glow), 0 0 20px rgba(255, 255, 255, 0.05);
+        }
+
+        .sector-card:hover::before {
+            opacity: 1;
+        }
+
+        .sector-icon-wrapper {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            background: var(--accent-hover-bg);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .sector-card:hover .sector-icon-wrapper {
+            transform: scale(1.1) rotate(5deg);
+            border-color: var(--border-hover);
+        }
+
+        .sector-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .sector-name {
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        .sector-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        #searchView {
+            display: none;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeInView 0.5s ease;
+        }
+
+        @keyframes fadeInView {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .search-container-relative {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
             margin-bottom: 15px;
         }
 
-        @keyframes fadeInSearch { to { opacity: 1; transform: translateY(0); } }
+        .search-box-wrapper {
+            width: 100%;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            padding: 16px 20px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+        }
 
         .search-box-wrapper input {
             border: none;
@@ -290,34 +524,72 @@
             font-size: 18px;
             background: transparent;
             text-align: left;
-            color: #ffffff;
+            color: var(--text-color);
         }
-        .search-box-wrapper input::placeholder { color: #64748b; }
+        .search-box-wrapper input::placeholder { color: var(--text-muted); }
 
-        #restaurantSearchWrapper {
+        .clear-search-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 18px;
+            cursor: pointer;
+            display: none;
+            padding: 0 5px;
+        }
+        .clear-search-btn:hover { color: var(--text-color); }
+
+        .suggestions-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: var(--modal-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-top: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .suggestion-item {
+            padding: 12px 18px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-color);
+            border-bottom: 1px solid var(--border-color);
+            transition: background 0.2s;
+        }
+        .suggestion-item:last-child { border-bottom: none; }
+        .suggestion-item:hover { background: var(--accent-hover-bg); color: var(--accent-color); }
+
+        #itemNameSearchWrapper {
             display: none;
             width: 100%;
             max-width: 650px;
-            background: rgba(15, 23, 42, 0.85);
+            background: var(--card-bg);
             backdrop-filter: blur(12px);
             padding: 14px 20px;
             border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             align-items: center;
-            border: 1px solid rgba(56, 189, 248, 0.4);
+            border: 1px solid var(--border-color);
             margin-bottom: 25px;
         }
 
-        #restaurantSearchWrapper input {
+        #itemNameSearchWrapper input {
             border: none;
             outline: none;
             width: 100%;
             font-size: 17px;
             background: transparent;
             text-align: left;
-            color: #ffffff;
+            color: var(--text-color);
         }
-        #restaurantSearchWrapper input::placeholder { color: #94a3b8; }
+        #itemNameSearchWrapper input::placeholder { color: var(--text-muted); }
 
         .grid-container {
             display: flex;
@@ -326,24 +598,32 @@
             width: 100%;
         }
 
-        .restaurant-card { 
-            background: rgba(15, 23, 42, 0.85); 
+        .item-card { 
+            background: var(--card-bg); 
             backdrop-filter: blur(12px);
             padding: 24px; 
             border-radius: 20px; 
             text-align: center; 
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(56, 189, 248, 0.25);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.4s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
             width: 100%;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: cardEntrance 0.5s ease forwards;
         }
-        .restaurant-card:hover {
+
+        @keyframes cardEntrance {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .item-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(56, 189, 248, 0.2);
-            border-color: rgba(56, 189, 248, 0.6);
+            box-shadow: 0 15px 35px rgba(255, 255, 255, 0.05);
+            border-color: var(--border-hover);
         }
 
         .profile-img-wrapper {
@@ -351,7 +631,7 @@
             border-radius: 14px;
             overflow: hidden;
             background: transparent;
-            border: 1px solid rgba(56, 189, 248, 0.2);
+            border: 1px solid var(--border-color);
             margin-bottom: 18px;
             display: flex;
             align-items: center;
@@ -366,26 +646,24 @@
             transition: transform 0.3s ease;
         }
 
-        .restaurant-card:hover .profile-img {
-            transform: scale(1.02);
-        }
+        .item-card:hover .profile-img { transform: scale(1.02); }
 
-        .restaurant-info { width: 100%; }
-        .restaurant-info h3 { margin: 0 0 8px 0; font-size: 24px; color: #ffffff; }
-        .restaurant-info p { margin: 0 0 12px 0; font-size: 16px; color: #94a3b8; }
+        .item-info { width: 100%; }
+        .item-info h3 { margin: 0 0 8px 0; font-size: 24px; color: var(--text-color); }
+        .item-info p { margin: 0 0 6px 0; font-size: 15px; color: var(--text-muted); }
 
         .card-actions {
             display: flex;
             gap: 10px;
             width: 100%;
-            margin-top: 10px;
+            margin-top: 15px;
         }
 
-        .menu-trigger-btn {
+        .details-trigger-btn {
             flex: 1;
-            background: rgba(56, 189, 248, 0.05);
-            border: 1px solid #38bdf8;
-            color: #38bdf8;
+            background: var(--accent-hover-bg);
+            border: 1px solid var(--border-hover);
+            color: var(--accent-color);
             padding: 12px;
             border-radius: 12px;
             font-size: 16px;
@@ -394,15 +672,15 @@
             transition: all 0.2s;
             text-transform: uppercase;
         }
-        .menu-trigger-btn:hover {
-            background: #38bdf8;
-            color: #0f172a;
+        .details-trigger-btn:hover {
+            background: var(--accent-color);
+            color: var(--modal-bg);
         }
 
         .phone-action-btn {
             flex: 1;
-            background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
-            color: #ffffff;
+            background: var(--accent-gradient);
+            color: var(--modal-bg);
             padding: 12px;
             border-radius: 12px;
             text-decoration: none;
@@ -412,7 +690,8 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
-            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: opacity 0.2s;
         }
         .phone-action-btn:hover { opacity: 0.9; }
 
@@ -420,7 +699,7 @@
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(2, 6, 23, 0.9);
+            background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(10px);
             z-index: 3000;
             justify-content: center; align-items: center;
@@ -428,28 +707,28 @@
         }
 
         .modal-content {
-            background: #0b0f19;
-            border: 1px solid rgba(56, 189, 248, 0.4);
+            background: var(--modal-bg);
+            border: 1px solid var(--border-color);
             max-width: 800px; width: 100%;
             border-radius: 20px; padding: 25px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.9);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
             text-align: center; position: relative;
             max-height: 95vh; overflow-y: auto;
         }
 
         .close-btn {
             position: absolute; top: 15px; right: 20px;
-            background: rgba(56, 189, 248, 0.1); border: none;
-            color: #38bdf8; font-size: 20px; width: 35px; height: 35px;
+            background: var(--accent-hover-bg); border: none;
+            color: var(--accent-color); font-size: 20px; width: 35px; height: 35px;
             border-radius: 50%; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
             z-index: 10;
         }
-        .close-btn:hover { background: rgba(56, 189, 248, 0.3); color: #fff; }
+        .close-btn:hover { opacity: 0.8; }
 
-        .modal-title { font-size: 24px; color: #ffffff; margin: 0 0 15px 0; }
+        .modal-title { font-size: 24px; color: var(--text-color); margin: 0 0 15px 0; }
 
-        .menu-gallery {
+        .modal-gallery {
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -457,19 +736,48 @@
             margin-top: 15px;
         }
 
-        .hd-menu-img {
+        .hd-modal-img {
             width: 100%;
             height: auto;
             border-radius: 12px;
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
             display: block;
         }
 
-        .no-result { text-align: center; color: #94a3b8; font-size: 16px; margin-top: 30px; font-weight: 500; }
+        .no-result { text-align: center; color: var(--text-muted); font-size: 16px; margin-top: 30px; font-weight: 500; }
+
+        #scrollTopBtn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--accent-color);
+            width: 45px; height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            z-index: 1500;
+            backdrop-filter: blur(10px);
+            transition: all 0.2s;
+        }
+        #scrollTopBtn:hover { border-color: var(--border-hover); background: var(--accent-hover-bg); }
     </style>
 </head>
 <body>
+
+<div id="splashScreen">
+    <div class="splash-content">
+        <div class="splash-logo">La Source</div>
+        <div class="splash-spinner"></div>
+        <div class="splash-tagline">Annuaire Multi-Secteurs</div>
+    </div>
+</div>
 
 <div id="loader"></div>
 
@@ -481,12 +789,16 @@
 
 <div class="top-bar">
     <button class="menu-toggle-btn" onclick="toggleSidebar()">☰</button>
+    <div class="top-actions">
+        <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeToggleBtn">☀️</button>
+        <button class="back-home-btn" id="backHomeBtn" style="display: none;" onclick="resetToSectors()">⬅️ Secteurs</button>
+    </div>
 </div>
 
 <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
 <div id="sidebar" class="sidebar">
     <div class="sidebar-header">
-        <h3 class="sidebar-title">Gusto</h3>
+        <h3 class="sidebar-title">La Source</h3>
         <button class="sidebar-close-btn" onclick="toggleSidebar()">×</button>
     </div>
     <div class="sidebar-links">
@@ -495,61 +807,85 @@
         <a class="sidebar-link-item" onclick="openLegalModal('contact'); toggleSidebar();">📞 Contact Us</a>
     </div>
     <div class="sidebar-footer">
-        &copy; 2026 Gusto. Tous droits réservés.
+        &copy; 2026 La Source. Tous droits réservés.
     </div>
 </div>
 
 <div class="container" id="mainContainer">
     <div class="title-wrapper">
         <div class="site-title" onclick="window.location.reload()">
-            <span>G</span><span>u</span><span>s</span><span>t</span><span>o</span>
+            <div class="word-group">
+                <span>L</span><span>a</span>
+            </div>
+            <div class="word-group">
+                <span>S</span><span>o</span><span>u</span><span>r</span><span>c</span><span>e</span>
+            </div>
         </div>
     </div>
 
-    <div class="search-box-wrapper">
-        <span style="margin-right: 10px; font-size: 20px;">📍</span>
-        <input type="text" id="wilayaInput" placeholder="Entrez votre Wilaya (ex: se, alger)..." oninput="searchRestaurants()">
+    <!-- 1. Sectors Selection View (Glassmorphism Cards) -->
+    <div id="sectorsView">
+        <p class="section-heading-title">Choisissez un secteur d'activité</p>
+        <div class="sectors-grid">
+            <div class="sector-card" onclick="selectSector('restaurants', 'Restaurants')">
+                <div class="sector-icon-wrapper">🍽️</div>
+                <div class="sector-info">
+                    <span class="sector-name">Restaurants</span>
+                    <span class="sector-desc">Découvrez les meilleures tables</span>
+                </div>
+            </div>
+            <div class="sector-card" onclick="selectSector('homemade', 'Homemade')">
+                <div class="sector-icon-wrapper">🍲</div>
+                <div class="sector-info">
+                    <span class="sector-name">Homemade</span>
+                    <span class="sector-desc">Plats traditionnels et faits maison</span>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div id="restaurantSearchWrapper">
-        <span style="margin-right: 10px; font-size: 20px;">🍽️</span>
-        <input type="text" id="restaurantNameInput" placeholder="Rechercher par nom de restaurant (optionnel)..." oninput="filterByRestaurantName()">
-    </div>
+    <!-- 2. Wilaya Search & Results View -->
+    <div id="searchView">
+        <div class="search-container-relative">
+            <div class="search-box-wrapper">
+                <span style="margin-right: 10px; font-size: 20px;">📍</span>
+                <input type="text" id="wilayaInput" placeholder="Entrez votre Wilaya (ex: constantine, alger)..." oninput="handleWilayaInput()" autocomplete="off">
+                <button class="clear-search-btn" id="clearWilayaBtn" onclick="clearWilayaInput()">×</button>
+            </div>
+            <div id="suggestionsDropdown" class="suggestions-dropdown"></div>
+        </div>
 
-    <div id="resultsContainer" class="grid-container"></div>
+        <div id="itemNameSearchWrapper">
+            <span style="margin-right: 10px; font-size: 20px;">🔍</span>
+            <input type="text" id="itemNameInput" placeholder="Filtrer par nom (optionnel)..." oninput="filterByName()">
+        </div>
+
+        <div id="resultsContainer" class="grid-container"></div>
+    </div>
 </div>
 
-<div id="restaurantModal" class="modal-overlay" onclick="closeModalOnOutside(event)">
+<button id="scrollTopBtn" onclick="scrollToTop()">⬆️</button>
+
+<div id="itemModal" class="modal-overlay" onclick="closeModalOnOutside(event)">
     <div class="modal-content">
         <button class="close-btn" onclick="closeModal()">×</button>
         <h2 id="modalName" class="modal-title"></h2>
-        <div id="menuGallery" class="menu-gallery"></div>
+        <div id="modalGallery" class="modal-gallery"></div>
     </div>
 </div>
 
 <script>
-    // إعدادات الـ Direct Link الخاص بـ Popunder مضاف مباشرة هنا
-    const directLinkURL = "https://omg10.com/4/11565873"; 
-    let popunderTriggered = false;
-
-    // ميزة Popunder الخفي عند الضغطة الأولى في الصفحة
-    document.addEventListener("click", function(e) {
-        if (popunderTriggered) return;
-        
-        // منع فتح الرابط إذا ضغط الزائر على زر أو رابط أساسي في الموقع
-        if (e.target.closest("button") || e.target.closest("a") || e.target.closest("input")) {
-            return;
-        }
-
-        popunderTriggered = true;
-
-        // فتح التبويب الخفي في الخلفية وإرجاع التركيز للتبويب الأصلي
-        let newTab = window.open(directLinkURL, "_blank");
-        if (newTab) {
-            newTab.blur();
-            window.focus();
-        }
-    }, { once: true });
+    window.addEventListener("load", () => {
+        setTimeout(() => {
+            let splash = document.getElementById("splashScreen");
+            splash.classList.add("expand");
+            splash.classList.add("fade-out");
+            
+            setTimeout(() => {
+                splash.remove();
+            }, 900);
+        }, 3000);
+    });
 
     const wilayasList = [
         "adrar", "chlef", "laghouat", "oum_el_bouaghi", "batna", "bejaia", "biskra", "bechar", 
@@ -562,11 +898,55 @@
         "in_guezzam", "in_salah", "janet", "el_meghaier", "el_meniaa"
     ];
 
-    let allRestaurants = [];
-    let filteredRestaurants = [];
+    let currentSectorKey = "";
+    let currentSectorName = "";
+    let allItems = [];
+    let filteredItems = [];
     let displayedCount = 0;
     const batchSize = 10;
     let currentMatchedWilaya = "";
+
+    function toggleTheme() {
+        const html = document.documentElement;
+        const btn = document.getElementById("themeToggleBtn");
+        if (html.getAttribute("data-theme") === "dark") {
+            html.setAttribute("data-theme", "light");
+            btn.innerText = "🌙";
+        } else {
+            html.setAttribute("data-theme", "dark");
+            btn.innerText = "☀️";
+        }
+    }
+
+    function selectSector(key, name) {
+        currentSectorKey = key;
+        currentSectorName = name;
+        
+        document.getElementById("sectorsView").style.display = "none";
+        document.getElementById("searchView").style.display = "flex";
+        document.getElementById("backHomeBtn").style.display = "flex";
+
+        let mainContainer = document.getElementById("mainContainer");
+        mainContainer.style.justifyContent = "flex-start";
+        mainContainer.style.minHeight = "unset";
+
+        document.getElementById("wilayaInput").focus();
+    }
+
+    function resetToSectors() {
+        document.getElementById("searchView").style.display = "none";
+        document.getElementById("sectorsView").style.display = "flex";
+        document.getElementById("backHomeBtn").style.display = "none";
+
+        let mainContainer = document.getElementById("mainContainer");
+        mainContainer.style.justifyContent = "center";
+        mainContainer.style.minHeight = "75vh";
+
+        clearWilayaInput();
+        document.getElementById("resultsContainer").innerHTML = "";
+        document.getElementById("itemNameSearchWrapper").style.display = "none";
+        document.getElementById("suggestionsDropdown").style.display = "none";
+    }
 
     function createParticles() {
         const container = document.getElementById("particles-js");
@@ -612,36 +992,72 @@
         }
     }
 
-    async function searchRestaurants() {
-        let loader = document.getElementById("loader");
-        loader.style.width = "100%";
-
+    function handleWilayaInput() {
         let query = document.getElementById("wilayaInput").value.trim().toLowerCase();
-        let formattedQuery = query.replace(/\s+/g, "_");
+        let clearBtn = document.getElementById("clearWilayaBtn");
+        let dropdown = document.getElementById("suggestionsDropdown");
 
-        let container = document.getElementById("resultsContainer");
-        let mainContainer = document.getElementById("mainContainer");
-        let restaurantSearchWrapper = document.getElementById("restaurantSearchWrapper");
-        
-        container.innerHTML = "";
-        allRestaurants = [];
-        filteredRestaurants = [];
-        displayedCount = 0;
-        currentMatchedWilaya = "";
-        restaurantSearchWrapper.style.display = "none";
-        document.getElementById("restaurantNameInput").value = "";
+        clearBtn.style.display = query.length > 0 ? "block" : "none";
 
         if (query === "") {
-            loader.style.width = "0%";
-            mainContainer.style.justifyContent = "center";
-            mainContainer.style.minHeight = "75vh";
+            dropdown.style.display = "none";
+            searchData("");
             return;
         }
 
-        mainContainer.style.justifyContent = "flex-start";
-        mainContainer.style.minHeight = "unset";
+        let matches = wilayasList.filter(w => w.includes(query));
+        
+        if (matches.length > 0) {
+            dropdown.innerHTML = "";
+            matches.forEach(match => {
+                let div = document.createElement("div");
+                div.className = "suggestion-item";
+                div.innerText = match.toUpperCase().replace(/_/g, " ");
+                div.onclick = () => {
+                    document.getElementById("wilayaInput").value = match;
+                    dropdown.style.display = "none";
+                    document.getElementById("clearWilayaBtn").style.display = "block";
+                    searchData(match);
+                };
+                dropdown.appendChild(div);
+            });
+            dropdown.style.display = "block";
+        } else {
+            dropdown.style.display = "none";
+        }
 
-        let matchedWilaya = wilayasList.find(w => w.startsWith(formattedQuery) || w.includes(formattedQuery));
+        searchData(query);
+    }
+
+    function clearWilayaInput() {
+        document.getElementById("wilayaInput").value = "";
+        document.getElementById("clearWilayaBtn").style.display = "none";
+        document.getElementById("suggestionsDropdown").style.display = "none";
+        searchData("");
+    }
+
+    async function searchData(query) {
+        let loader = document.getElementById("loader");
+        loader.style.width = "100%";
+
+        let formattedQuery = query.trim().toLowerCase().replace(/\s+/g, "_");
+        let container = document.getElementById("resultsContainer");
+        let itemNameSearchWrapper = document.getElementById("itemNameSearchWrapper");
+        
+        container.innerHTML = "";
+        allItems = [];
+        filteredItems = [];
+        displayedCount = 0;
+        currentMatchedWilaya = "";
+        itemNameSearchWrapper.style.display = "none";
+        document.getElementById("itemNameInput").value = "";
+
+        if (formattedQuery === "") {
+            loader.style.width = "0%";
+            return;
+        }
+
+        let matchedWilaya = wilayasList.find(w => w === formattedQuery || w.startsWith(formattedQuery));
 
         if (!matchedWilaya) {
             loader.style.width = "0%";
@@ -656,7 +1072,7 @@
             let combinedData = [];
 
             while (true) {
-                let fileName = partIndex === 1 ? `${matchedWilaya}.json` : `${matchedWilaya}_${partIndex}.json`;
+                let fileName = partIndex === 1 ? `${matchedWilaya}_${currentSectorKey}.json` : `${matchedWilaya}_${currentSectorKey}_${partIndex}.json`;
                 try {
                     let response = await fetch(fileName);
                     if (!response.ok) break;
@@ -670,17 +1086,16 @@
 
             if (combinedData.length === 0) {
                 loader.style.width = "0%";
-                container.innerHTML = `<p class='no-result'>Aucun restaurant pour ${matchedWilaya.toUpperCase()} pour le moment.</p>`;
+                container.innerHTML = `<p class='no-result'>Aucun résultat pour ${matchedWilaya.toUpperCase()} dans ce secteur.</p>`;
                 return;
             }
 
-            allRestaurants = combinedData;
-            filteredRestaurants = combinedData;
+            allItems = combinedData;
+            filteredItems = combinedData;
             loader.style.width = "0%";
 
-            restaurantSearchWrapper.style.display = "flex";
-
-            renderMoreRestaurants();
+            itemNameSearchWrapper.style.display = "flex";
+            renderMoreItems();
 
         } catch (error) {
             loader.style.width = "0%";
@@ -688,45 +1103,49 @@
         }
     }
 
-    function filterByRestaurantName() {
-        let nameQuery = document.getElementById("restaurantNameInput").value.trim().toLowerCase();
+    function filterByName() {
+        let nameQuery = document.getElementById("itemNameInput").value.trim().toLowerCase();
         let container = document.getElementById("resultsContainer");
         
         container.innerHTML = "";
         displayedCount = 0;
 
         if (nameQuery === "") {
-            filteredRestaurants = allRestaurants;
+            filteredItems = allItems;
         } else {
-            filteredRestaurants = allRestaurants.filter(rest => rest.name.toLowerCase().includes(nameQuery));
+            filteredItems = allItems.filter(item => item.name.toLowerCase().includes(nameQuery));
         }
 
-        if (filteredRestaurants.length === 0) {
-            container.innerHTML = "<p class='no-result'>Aucun restaurant trouvé avec ce nom...</p>";
+        if (filteredItems.length === 0) {
+            container.innerHTML = "<p class='no-result'>Aucun résultat trouvé avec ce nom...</p>";
             return;
         }
 
-        renderMoreRestaurants();
+        renderMoreItems();
     }
 
-    function renderMoreRestaurants() {
+    function renderMoreItems() {
         let container = document.getElementById("resultsContainer");
-        let nextBatch = filteredRestaurants.slice(displayedCount, displayedCount + batchSize);
+        let nextBatch = filteredItems.slice(displayedCount, displayedCount + batchSize);
 
-        nextBatch.forEach((rest) => {
+        nextBatch.forEach((item, index) => {
             let card = document.createElement("div");
-            card.className = "restaurant-card";
+            card.className = "item-card";
+            card.style.animationDelay = `${index * 0.08}s`;
             
+            let itemAddress = item.address ? item.address : (currentMatchedWilaya.toUpperCase() + ", Algérie");
+
             card.innerHTML = `
                 <div class="profile-img-wrapper">
-                    <img src="${rest.profileImg}" alt="${rest.name}" class="profile-img" loading="lazy">
+                    <img src="${item.profileImg}" alt="${item.name}" class="profile-img" loading="lazy">
                 </div>
-                <div class="restaurant-info">
-                    <h3>${rest.name}</h3>
-                    <p>📍 ${currentMatchedWilaya.toUpperCase()} — 📞 ${rest.phone}</p>
+                <div class="item-info">
+                    <h3>${item.name}</h3>
+                    <p>📍 ${itemAddress}</p>
+                    <p>📞 ${item.phone}</p>
                     <div class="card-actions">
-                        <button class="menu-trigger-btn" onclick='openModal(${JSON.stringify(rest).replace(/'/g, "&#39;")})'>Menu</button>
-                        <a href="tel:${rest.phone}" class="phone-action-btn">📞 Appeler</a>
+                        <button class="details-trigger-btn" onclick='openModal(${JSON.stringify(item).replace(/'/g, "&#39;")})'>Menu</button>
+                        <a href="tel:${item.phone}" class="phone-action-btn">📞 Appeler</a>
                     </div>
                 </div>
             `;
@@ -738,38 +1157,49 @@
     }
 
     window.addEventListener("scroll", () => {
+        let scrollTopBtn = document.getElementById("scrollTopBtn");
+        if (window.scrollY > 300) {
+            scrollTopBtn.style.display = "flex";
+        } else {
+            scrollTopBtn.style.display = "none";
+        }
+
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 300) {
-            if (displayedCount < filteredRestaurants.length) {
-                renderMoreRestaurants();
+            if (displayedCount < filteredItems.length) {
+                renderMoreItems();
             }
         }
     });
 
-    function openModal(rest) {
-        document.getElementById("modalName").innerText = rest.name + " - Menu";
-        let galleryContainer = document.getElementById("menuGallery");
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openModal(item) {
+        document.getElementById("modalName").innerText = item.name + " - Menu";
+        let galleryContainer = document.getElementById("modalGallery");
         galleryContainer.innerHTML = "";
 
-        let images = rest.menuImages || [];
+        let images = item.menuImages || item.images || [];
 
         if (images.length === 0) {
-            galleryContainer.innerHTML = "<p style='color: #94a3b8;'>Aucun menu disponible pour le moment.</p>";
+            galleryContainer.innerHTML = "<p style='color: var(--text-muted);'>Aucun menu disponible pour le moment.</p>";
         } else {
             images.forEach((imgSrc) => {
                 let img = document.createElement("img");
                 img.src = imgSrc;
-                img.className = "hd-menu-img";
-                img.alt = "Menu Image";
+                img.className = "hd-modal-img";
+                img.alt = "Image";
                 img.loading = "lazy";
                 galleryContainer.appendChild(img);
             });
         }
 
-        document.getElementById("restaurantModal").style.display = "flex";
+        document.getElementById("itemModal").style.display = "flex";
     }
 
     function closeModal() {
-        document.getElementById("restaurantModal").style.display = "none";
+        document.getElementById("itemModal").style.display = "none";
     }
 
     function closeModalOnOutside(event) {
@@ -781,33 +1211,33 @@
 
     function openLegalModal(type) {
         let modalName = document.getElementById("modalName");
-        let galleryContainer = document.getElementById("menuGallery");
+        let galleryContainer = document.getElementById("modalGallery");
         
-        document.getElementById("restaurantModal").style.display = "flex";
+        document.getElementById("itemModal").style.display = "flex";
         
         if (type === 'about') {
-            modalName.innerText = "À propos de Gusto";
+            modalName.innerText = "À propos de La Source";
             galleryContainer.innerHTML = `
-                <p style="color: #94a3b8; line-height: 1.6; text-align: left;">
-                    <strong>Gusto</strong> est votre annuaire numérique de référence pour découvrir les meilleurs restaurants à travers toutes les wilayas d'Algérie. Notre mission est de simplifier l'accès aux menus et aux informations des restaurants de manière rapide, fluide et élégante.
+                <p style="color: var(--text-muted); line-height: 1.6; text-align: left;">
+                    <strong>La Source</strong> est votre annuaire multi-secteurs de référence à travers toutes les wilayas d'Algérie. Notre mission est de simplifier l'accès rapide et fluide aux informations et services locaux.
                 </p>
             `;
         } else if (type === 'privacy') {
             modalName.innerText = "Politique de Confidentialité";
             galleryContainer.innerHTML = `
-                <p style="color: #94a3b8; line-height: 1.6; text-align: left;">
-                    Chez <strong>Gusto</strong>, nous respectons votre vie privée. Aucune donnée personnelle sensible n'est collectée lors de votre navigation sur notre annuaire. Les recherches sont traitées localement pour garantir une sécurité totale.
+                <p style="color: var(--text-muted); line-height: 1.6; text-align: left;">
+                    Chez <strong>La Source</strong>, nous respectons votre vie privée. Aucune donnée personnelle sensible n'est collectée.
                 </p>
             `;
         } else if (type === 'contact') {
             modalName.innerText = "Contactez-nous";
             galleryContainer.innerHTML = `
-                <p style="color: #94a3b8; line-height: 1.6; text-align: left;">
-                    Vous êtes propriétaire d'un restaurant ou vous souhaitez nous contacter ? N'hésitez pas à nous joindre via les coordonnées ci-dessous :
+                <p style="color: var(--text-muted); line-height: 1.6; text-align: left;">
+                    Vous souhaitez ajouter votre établissement ou nous contacter ?
                 </p>
-                <p style="color: #ffffff; text-align: left; margin-top: 15px;">
-                    📧 Email : <a href="mailto:amrinoufel51@gmail.com" style="color: #38bdf8; text-decoration: underline;">amrinoufel51@gmail.com</a><br><br>
-                    📞 Téléphone : <a href="tel:0549770854" style="color: #38bdf8; text-decoration: underline;">0549770854</a>
+                <p style="color: var(--text-color); text-align: left; margin-top: 15px;">
+                    📧 Email : <a href="mailto:amrinoufel51@gmail.com" style="color: var(--text-color); text-decoration: underline;">amrinoufel51@gmail.com</a><br><br>
+                    📞 Téléphone : <a href="tel:0549770854" style="color: var(--text-color); text-decoration: underline;">0549770854</a>
                 </p>
             `;
         }
@@ -815,4 +1245,4 @@
 </script>
 
 </body>
-</html>p
+</html>
